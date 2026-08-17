@@ -27,6 +27,6 @@ module.exports = (app) => {
     ctx.redirect(app?.options?.homePage ?? "/");
   });
 
-  console.log("router:", router);
+  // console.log("router:", router);
   console.log("-- routerLoader done--");
 };

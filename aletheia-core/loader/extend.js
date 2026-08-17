@@ -38,6 +38,6 @@ module.exports = (app) => {
       }
     });
 
-  console.log("app:", app);
+  // console.log("app:", app);
   console.log("-- extendLoader done--");
 };

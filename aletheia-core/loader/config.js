@@ -19,13 +19,11 @@ module.exports = (app) => {
   }
   //3，根据环境获取配置
   let envConfig = {};
-  console.log(process.env.NODE_ENV);
-
   try {
     if (app.env.isLocal()) {
       envConfig = require(path.resolve(configPath, "local.config.js"));
     } else if (app.env.isBeta()) {
-      envConfig = require(path.resolve(configPath, "bate.config.js"));
+      envConfig = require(path.resolve(configPath, "beta.config.js"));
     } else if (app.env.isProduction()) {
       envConfig = require(path.resolve(configPath, "prod.config.js"));
     }
