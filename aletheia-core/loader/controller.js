@@ -12,6 +12,7 @@ const glob = require("glob");
  */
 
 module.exports = (app) => {
+  const controller = {};
   //读取app/controller下的所有js文件
   glob
     .sync(path.resolve(app.businessDir, `.${sep}controller${sep}**${sep}*.js`))
@@ -32,19 +33,19 @@ module.exports = (app) => {
       // console.log(`controller module name: ${camelCaseName}`);
       // 4 嵌套挂载到app.controller下
       const parts = camelCaseName.split(sep);
-      const controller = {};
-      let tempController = {};
+      let tempController = controller;
       for (let i = 0; i < parts.length; i++) {
         const part = parts[i];
         if (i === parts.length - 1) {
           // 最后一个部分，挂载中间件函数
-          tempController[part] = require(path.resolve(file))(app);
+          const ct = require(path.resolve(file))(app);
+          // fix: new 的优先级比较高，不要连写
+          tempController[part] = new ct();
         } else {
           // 中间部分，创建嵌套对象
           tempController[part] = tempController[part] || {};
-          controller[part] = tempController[part];
+          tempController = tempController[part];
         }
-        tempController = tempController[part];
       }
       // 合并到app.controller下
       app.controller = { ...app.controller, ...controller };
