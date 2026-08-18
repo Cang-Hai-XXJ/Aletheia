@@ -38,7 +38,8 @@ module.exports = (app) => {
         const part = parts[i];
         if (i === parts.length - 1) {
           // 最后一个部分，挂载中间件函数
-          tempService[part] = require(path.resolve(file))(app);
+          const cs = require(path.resolve(file))(app);
+          tempService[part] = new cs();
         } else {
           // 中间部分，创建嵌套对象
           tempService[part] = tempService[part] ?? {};

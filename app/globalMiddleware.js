@@ -1,8 +1,9 @@
 const koaNunjucks = require("koa-nunjucks-2");
+const KoaStatic = require("koa-static");
 const path = require("path");
 
-// 模板渲染引擎
 module.exports = (app) => {
+  // 模板渲染引擎
   app.use(
     koaNunjucks({
       ext: "tpl",
@@ -13,4 +14,7 @@ module.exports = (app) => {
       },
     }),
   );
+
+  // 配置静态根目录
+  app.use(KoaStatic(path.resolve(process.cwd(), "./app/public")));
 };
