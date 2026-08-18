@@ -12,6 +12,7 @@ const glob = require("glob");
  */
 
 module.exports = (app) => {
+  const service = {};
   //读取app/service下的所有js文件
   glob
     .sync(path.resolve(app.businessDir, `.${sep}service${sep}**${sep}*.js`))
@@ -32,19 +33,17 @@ module.exports = (app) => {
       // console.log(`service module name: ${camelCaseName}`);
       // 4 嵌套挂载到app.service下
       const parts = camelCaseName.split(sep);
-      const service = {};
-      let tempService = {};
+      let tempService = service;
       for (let i = 0; i < parts.length; i++) {
         const part = parts[i];
         if (i === parts.length - 1) {
           // 最后一个部分，挂载中间件函数
-          tempService[part] = new require(path.resolve(file))(app);
+          tempService[part] = require(path.resolve(file))(app);
         } else {
           // 中间部分，创建嵌套对象
           tempService[part] = tempService[part] ?? {};
-          service[part] = tempService[part];
+          tempService = tempService[part];
         }
-        tempService = tempService[part];
       }
       // 合并到app.service下
       app.service = { ...app.service, ...service };

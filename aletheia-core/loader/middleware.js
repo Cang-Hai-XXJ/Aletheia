@@ -12,6 +12,7 @@ const glob = require("glob");
  */
 
 module.exports = (app) => {
+  const middleware = {};
   //读取app/middleware下的所有js文件
   glob
     .sync(path.resolve(app.businessDir, `.${sep}middleware${sep}**${sep}*.js`))
@@ -32,8 +33,7 @@ module.exports = (app) => {
       // console.log(`Middleware module name: ${camelCaseName}`);
       // 4 嵌套挂载到app.middleware下
       const parts = camelCaseName.split(sep);
-      const middleware = {};
-      let tempMiddleware = {};
+      let tempMiddleware = middleware;
       for (let i = 0; i < parts.length; i++) {
         const part = parts[i];
         if (i === parts.length - 1) {
@@ -42,14 +42,13 @@ module.exports = (app) => {
         } else {
           // 中间部分，创建嵌套对象
           tempMiddleware[part] = tempMiddleware[part] || {};
-          middleware[part] = tempMiddleware[part];
+          tempMiddleware = tempMiddleware[part];
         }
-        tempMiddleware = tempMiddleware[part];
       }
       // 合并到app.middleware下
-      app.middlewares = { ...app.middlewares, ...middleware };
+      app.middleware = { ...app.middleware, ...middleware };
     });
 
-  console.log("app.middlewares:", app.middlewares);
+  console.log("app.middleware:", app.middleware);
   console.log("-- middlewareLoader done--");
 };
