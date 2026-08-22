@@ -52,5 +52,5 @@ module.exports = (app) => {
     });
 
   console.log("app.controller:", app.controller);
-  console.log("-- controllerLoader done--");
+  // console.log("-- controllerLoader done--");
 };

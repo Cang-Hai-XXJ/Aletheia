@@ -34,5 +34,5 @@ module.exports = (app) => {
   //4，合并配置 TODO: why use Object.assign instead of deep merge?
   app.config = Object.assign({}, defaultConfig, envConfig);
   console.log("app.config:", app.config);
-  console.log("-- configLoader done--");
+  // console.log("-- configLoader done--");
 };

@@ -20,7 +20,7 @@ module.exports = (app) => {
   let routerSchema = {};
   glob
     .sync(
-      path.resolve(app.businessDir, `${sep}router-schema${sep}**${sep}*.js`),
+      path.resolve(app.businessDir, `.${sep}router-schema${sep}**${sep}*.js`),
     )
     .forEach((file) => {
       routerSchema = {
@@ -30,5 +30,4 @@ module.exports = (app) => {
     });
   app.routerSchema = routerSchema;
   console.log("app.routerSchema:", app.routerSchema);
-  console.log("-- routerSchemaLoader done--", routerSchema);
 };

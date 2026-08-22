@@ -50,6 +50,5 @@ module.exports = (app) => {
       app.service = { ...app.service, ...service };
     });
 
-  console.log("app.service:", app.service);
-  console.log("-- serviceLoader done--");
+  // console.log("app.service:", app.service);
 };

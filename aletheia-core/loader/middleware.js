@@ -5,10 +5,10 @@ const glob = require("glob");
  * middleware loader
  * @param {object} app koa实例
  *
- * 加载app/middleware文件夹下所有层级的middleware,通过 app.middleware.xx.xxxx 访问
+ * 加载app/middleware文件夹下所有层级的middleware,通过 app.middlewares.xx.xxxx 访问
  * 例：
  * app/middleware/config/user-config.js
- * => app.middleware.config.userConfig
+ * => app.middlewares.config.userConfig
  */
 
 module.exports = (app) => {
@@ -46,9 +46,9 @@ module.exports = (app) => {
         }
       }
       // 合并到app.middleware下
-      app.middleware = { ...app.middleware, ...middleware };
+      app.middlewares = { ...app.middlewares, ...middleware };
     });
 
-  console.log("app.middleware:", app.middleware);
-  console.log("-- middlewareLoader done--");
+  console.log("app.middlewares:", app.middlewares);
+  // console.log("-- middlewareLoader done--");
 };

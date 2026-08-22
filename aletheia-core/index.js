@@ -1,7 +1,15 @@
 const Koa = require("koa");
 const path = require("path");
 const { sep } = path;
-const glob = require("glob");
+// const glob = require("glob");
+
+const middlewareLoader = require("./loader/middleware");
+const routerSchemaLoader = require("./loader/router-schema");
+const routerLoader = require("./loader/router");
+const controllerLoader = require("./loader/controller");
+const serviceLoader = require("./loader/service");
+const configLoader = require("./loader/config");
+const extendLoader = require("./loader/extend");
 /**
  *  @param {object} options - 项目配置
  *  options = {
@@ -29,6 +37,30 @@ module.exports = {
     app.env = env();
     console.log("start env:", app.env.get());
 
+    // load all loaders
+    // TODO: learn how to sue glob and /*
+    // glob.sync(path.resolve(__dirname, `loader${sep}*.js`)).forEach((loader) => {
+    //   require(loader)(app);
+    // });
+
+    // 加载 middleware
+    middlewareLoader(app);
+
+    // 加载 router-schema
+    routerSchemaLoader(app);
+
+    // 加载 controller
+    controllerLoader(app);
+
+    // 加载 service
+    serviceLoader(app);
+
+    // 加载 config
+    configLoader(app);
+
+    // 加载 extend
+    extendLoader(app);
+
     // load global middleware app/globalMiddleware.js
     try {
       require(path.resolve(app.businessDir, `.${sep}globalMiddleware.js`))(app);
@@ -36,11 +68,8 @@ module.exports = {
       console.warn("There is no global middleware");
     }
 
-    // load all loaders
-    // TODO: learn how to sue glob and /*
-    glob
-      .sync(path.resolve(__dirname, `loader${sep}*.js`))
-      .map((loader) => require(loader)(app));
+    // 加载 router,需要写在加载其他中间件之后，在进行路由分发
+    routerLoader(app);
 
     //start the server
     try {

@@ -39,5 +39,5 @@ module.exports = (app) => {
     });
 
   // console.log("app:", app);
-  console.log("-- extendLoader done--");
+  // console.log("-- extendLoader done--");
 };
