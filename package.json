@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack-dev-server --inline --hot --port 8080",
+    "dev": "cross-env NODE_ENV=local nodemon ./index.js",
+    "beta": "cross-env NODE_ENV=beta nodemon ./index.js",
+    "prod": "cross-env NODE_ENV=production nodemon ./index.js",
     "lint": "eslint --quiet --ext .js,.vue .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -54,6 +56,7 @@
     "babel-loader": "^8.0.4",
     "clean-webpack-plugin": "^0.1.19",
     "consoler": "^0.2.0",
+    "cross-env": "^10.1.0",
     "css-loader": "^0.23.1",
     "css-minimizer-webpack-plugin": "^5.0.1",
     "directory-named-webpack-plugin": "^4.0.1",
